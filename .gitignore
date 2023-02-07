@@ -15,3 +15,5 @@ dist
 *.tgz
 
 .yarn-integrity
+
+.env
