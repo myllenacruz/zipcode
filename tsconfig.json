@@ -8,13 +8,14 @@
     "baseUrl": "./src",                    
     "paths": {
       "@src/*": ["src/*"],
-      "@modules/*": ["modules/*"]
+      "@modules/*": ["modules/*"],
+      "@shared/*": ["shared/*"]
     },
     "resolveJsonModule": true,   
     "outDir": "./dist",                    
     "esModuleInterop": true,                             
-    "strict": true,                                     
     "noImplicitAny": true,       
-    "skipLibCheck": true                           
+    "skipLibCheck": true,
+    "strictPropertyInitialization": false,          
   }
 }
