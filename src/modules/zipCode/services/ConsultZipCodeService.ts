@@ -17,45 +17,49 @@ export class ConsultZipCodeService {
 	) {}
 
 	public async execute(zipCode: string): Promise<IResponse> {
-		const hasLetters: boolean = /[a-z]/i.test(zipCode);
-
-		if (hasLetters) throw new AppError("Invalid zip code, letters is not allowed!");
+		if (this.hasLetters(zipCode)) throw new AppError("Letters is not allowed!");
 
 		const cachedZipCode = await this.cacheProvider.get(zipCode);
 
 		if (cachedZipCode) {
-			if (this.isDateOnInterval(cachedZipCode.searchAt)) {
-			    return {
-					values: cachedZipCode.values,
-					source: "Cache"
-				};
-			}
+			if (this.isDateOnInterval(cachedZipCode.searchAt, 300000))
+				return cachedZipCode;
 
 			await this.cacheProvider.delete(zipCode);
 		}
 
-		const viaCepResponse = await axios.get(`https://viacep.com.br/ws/${zipCode}/json/`);
-
-		if (viaCepResponse.data.erro) throw new AppError("Invalid zip code!");
-
-		const values = viaCepResponse.data;
+		const viaCep = await this.viaCepRequest(zipCode);
 
 		await this.cacheProvider.add({
 			zipCode,
 			searchAt: new Date(),
-			values
+			values: viaCep.values
 		});
 
-		return {
-			values,
-			source: "ViaCEP"
-		};
+		return viaCep;
 	}
 
-	private isDateOnInterval(searchDate: Date): boolean {
-		const fiveMinInMs: number = 300000;
+	private isDateOnInterval(
+		searchDate: Date,
+		timeInMs: number
+	): boolean {
 		const dateInMs = Math.abs(searchDate.getTime() - new Date().getTime());
 
-		if (dateInMs <= fiveMinInMs) return true;
+		if (dateInMs <= timeInMs) return true;
+	}
+
+	private hasLetters(zipCode: string): boolean {
+		return /[a-z]/i.test(zipCode);
+	}
+
+	private async viaCepRequest(zipCode: string): Promise<IResponse> {
+		const request = await axios.get(`https://viacep.com.br/ws/${zipCode}/json/`);
+
+		if (request.data.erro) throw new AppError("Invalid zip code!");
+
+		return {
+			values: request.data,
+			source: "ViaCEP"
+		};
 	}
 }
