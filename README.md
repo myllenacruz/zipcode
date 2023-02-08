@@ -1,6 +1,8 @@
-<h1 align="center">ZipCode API</h1>
+<h1 align="center">Zip Code Consult API</h1>
 
-This system consists in a Zip Code API Consult.
+_______
+#### This application so far does not make connections with the database, therefore, the returned values are saved in memory or searched in ViaCep API. If this same zip code is searched within a period of up to 5 minutes, the data will be searched in cache and no longer in ViaCep.
+_______
 
 ## Development
 1. Install project dependencies: 
