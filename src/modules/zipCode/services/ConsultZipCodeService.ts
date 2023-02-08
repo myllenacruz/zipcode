@@ -17,7 +17,10 @@ export class ConsultZipCodeService {
 	) {}
 
 	public async execute(zipCode: string): Promise<IResponse> {
-		if (isNaN(parseInt(zipCode))) throw new AppError("Invalid zip code!");
+		const hasLetters: boolean = /\d/.test(zipCode);
+
+		if (isNaN(parseInt(zipCode)) || hasLetters)
+			throw new AppError("Invalid zip code, letters is not allowed!");
 
 		const cachedZipCode = await this.cacheProvider.get(zipCode);
 
@@ -34,7 +37,7 @@ export class ConsultZipCodeService {
 
 		const viaCepResponse = await axios.get(`https://viacep.com.br/ws/${zipCode}/json/`);
 
-		if (viaCepResponse.data.erro) throw new AppError(viaCepResponse.data.erro);
+		if (viaCepResponse.data.erro) throw new AppError("Invalid zip code!");
 
 		const values = viaCepResponse.data;
 
