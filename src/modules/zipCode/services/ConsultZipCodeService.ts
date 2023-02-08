@@ -17,7 +17,7 @@ export class ConsultZipCodeService {
 	) {}
 
 	public async execute(zipCode: string): Promise<IResponse> {
-		const hasLetters: boolean = /\d/.test(zipCode);
+		const hasLetters: boolean = /[a-z]/i.test(zipCode);
 
 		if (isNaN(parseInt(zipCode)) || hasLetters)
 			throw new AppError("Invalid zip code, letters is not allowed!");
