@@ -67,15 +67,15 @@
 			"post": {
 				"summary": "User Login",
 				"description": "Route responsible for logging in and generating the Token to access the app.\n\n**_Additional information regarding the Token_**: The Token generated in this request is __expirable__, the expiration period is currently 12 hours. 12hrs is the maximum time that the user can make requests without being asked for another Token, in this case is necessary to login again.",
-				"tags": ["User"],
+				"tags": ["Login"],
 				"requestBody": {
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/User"
+								"$ref": "#/components/schemas/Login"
 							},
 							"examples": {
-								"user": {
+								"login": {
 									"value": {
                                         "username": "janedoe",
                                         "password": "1234"
@@ -92,10 +92,10 @@
 							"application/json": {
 								"schema": {
 									"type": "object",
-									"$ref": "#/components/schemas/User"
+									"$ref": "#/components/schemas/Login"
 								},
 								"examples": {
-									"user": {
+									"login": {
 										"value": {
                                             "user": {
                                                 "username": "janedoe",
@@ -192,6 +192,13 @@
 				"properties": {
 					"username": { "type": "string" },
 					"email": { "type": "string" },
+					"password": { "type": "string" }
+				}
+			},
+			"Login": {
+				"type": "object",
+				"properties": {
+					"username": { "type": "string" },
 					"password": { "type": "string" }
 				}
 			},
