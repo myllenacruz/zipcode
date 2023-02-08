@@ -1,12 +1,12 @@
 import { ICacheProvider } from "@shared/container/providers/CacheProvider/ICacheProvider";
 import axios from "axios";
 import { inject, injectable } from "tsyringe";
-import { IViaCep } from "@modules/zipCode/interfaces/IViaCep";
+import { IViaCep, IZipCodeSource } from "@modules/zipCode/interfaces";
 import { AppError } from "@shared/errors/AppError";
 
 interface IResponse {
 	values: IViaCep;
-	source: "Cache" | "ViaCEP";
+	source: IZipCodeSource | "ViaCEP";
 }
 
 @injectable()

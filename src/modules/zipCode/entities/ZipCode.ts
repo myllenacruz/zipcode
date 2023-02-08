@@ -1,6 +1,7 @@
 import { ICreateZipCodeDTO } from "@modules/zipCode/dtos/ICreateZipCodeDTO";
 import { IViaCep } from "@modules/zipCode/interfaces/IViaCep";
 import { Exclude } from "class-transformer";
+import { IZipCodeSource } from "@modules/zipCode/interfaces/IZipCodeSource";
 
 export class ZipCode {
 	@Exclude()
@@ -8,7 +9,7 @@ export class ZipCode {
 	@Exclude()
 	public searchAt: Date;
 	public values: IViaCep;
-	public source: "Cache";
+	public source: IZipCodeSource;
 
 	constructor({
 		zipCode,
