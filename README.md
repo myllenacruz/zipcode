@@ -32,9 +32,7 @@ yarn dev
 
         2 - Do login and copy your <strong>accessToken</strong>.
 
-        3 - Go to <strong>Zip Code Consult</strong> and paste your <strong>accessToken</strong> on Authorization > Type > Bearer Token.
-        
-        4 -  You ready to make your zip code consult.
+        3 - Go to <strong>Zip Code Consult</strong> and paste your <strong>accessToken</strong> on Authorization > Type > Bearer Token. After this you ready to make    your zip code consult.
 
   ### Swagger
   If your server is already up and you want a more practical and free way to test, access the swagger documentation: http://localhost:4000/docs.
