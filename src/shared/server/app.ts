@@ -12,12 +12,15 @@ import { AppError } from "@shared/errors/AppError";
 import basicAtuh from "express-basic-auth";
 import swaggerUi from "swagger-ui-express";
 import { docs } from "../../docs";
+import morgan from "morgan";
 
 const app = express();
 const server = new HttpServer(app);
 
 app.use(express.json());
+
 app.use(cors());
+app.use(morgan("dev"));
 
 app.use("/api", routes);
 
