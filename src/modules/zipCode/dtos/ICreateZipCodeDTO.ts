@@ -4,4 +4,5 @@ export interface ICreateZipCodeDTO {
     zipCode: string;
     searchAt: Date;
     values: IViaCep;
+    source?: "Cache";
 }

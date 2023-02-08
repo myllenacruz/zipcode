@@ -14,7 +14,10 @@ export class FakeCacheProvider implements ICacheProvider {
 	public async add(data: ICreateZipCodeDTO): Promise<ZipCode> {
 		const zipCode: ZipCode = new ZipCode(data);
 
-		Object.assign(zipCode, { ...data });
+		Object.assign(zipCode, {
+			...data,
+			source: "Cache"
+		});
 
 		this.zipCodes.push(zipCode);
 
