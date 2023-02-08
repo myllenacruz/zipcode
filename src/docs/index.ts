@@ -1,0 +1,1 @@
+export { default as docs } from "./swagger.json";

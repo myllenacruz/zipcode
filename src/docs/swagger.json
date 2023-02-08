@@ -1,0 +1,215 @@
+{
+	"openapi": "3.0.0",
+	"info": {
+		"title": "Zip Code Consult API",
+		"description": "This is the documentation of the Zip Code API routes.\n\nTo make the requests you need click on '**Try it out**' button and then insert yours datas (or you can use the given example datas), then click on '**Execute**'.\n\nAs you can see, the route for zip code consult has a padlock. This means you need to enter your access token. To own an access token, follow the steps below: \n\n1 - Registrate ur user.\n\n2 - Do login and copy your accessToken.\n\n 3 - Paste your access token on padlock and make the request."
+	},
+	"servers": [
+		{
+			"url": "http://localhost:4000/api/"
+		}
+	],
+	"paths": {
+		"/user": {
+			"post": {
+				"summary": "User Registration",
+				"description": "This route is responsible for registering an user.",
+				"tags": ["User"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/User"
+							},
+							"examples": {
+								"user": {
+									"value": {
+                                        "username": "janedoe",
+                                        "email": "janedoe@email.com",
+                                        "password": "1234"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "User is registered with success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/User"
+								},
+								"examples": {
+									"user": {
+										"value": {
+                                            "username": "janedoe",
+                                            "email": "janedoe@email.com",
+                                            "id": "49eacbac-ce21-4afd-a74a-ffd7d4bbbea5"
+										}
+									}
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "Email or username already exists"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+        "/login": {
+			"post": {
+				"summary": "User Login",
+				"description": "Route responsible for logging in and generating the Token to access the app.\n\n**_Additional information regarding the Token_**: The Token generated in this request is __expirable__, the expiration period is currently 12 hours. 12hrs is the maximum time that the user can make requests without being asked for another Token, in this case is necessary to login again.",
+				"tags": ["User"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/User"
+							},
+							"examples": {
+								"user": {
+									"value": {
+                                        "username": "janedoe",
+                                        "password": "1234"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "User is registered with success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/User"
+								},
+								"examples": {
+									"user": {
+										"value": {
+                                            "user": {
+                                                "username": "janedoe",
+                                                "email": "janedoe@email.com",
+                                                "id": "087020a3-db29-4908-89d6-b2f7cc584cb6"
+                                            },
+                                            "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE2NzU4NjExMzAsImV4cCI6MTY3NTkwNDMzMCwic3ViIjoie1wiaWRcIjpcIjA4NzAyMGEzLWRiMjktNDkwOC04OWQ2LWIyZjdjYzU4NGNiNlwiLFwidXNlcm5hbWVcIjpcImphbmVkb2VcIn0ifQ.hcebUSb7LvE3cw8R_7NT1wvOlPekwTo5bZbtn3UgJ_4"
+										}
+									}
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "Email or username already exists"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		},
+        "/consult": {
+			"post": {
+				"summary": "Zip Code Consult",
+				"description": "Route responsible for doing zip code consults.\n\nNote that the **source** field will change after the first request, because if the same field was entered within an interval of up to five minutes, the values will be retrieved from **cache** and no longer from ViaCEP.",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+				"tags": ["ZipCode"],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/ZipCode"
+							},
+							"examples": {
+								"zipCode": {
+									"value": {
+                                        "zipCode": "30160038"
+									}
+								}
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Consulted with success",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"$ref": "#/components/schemas/ZipCode"
+								},
+								"examples": {
+									"zipCode": {
+										"value": {
+                                            "values": {
+                                                "cep": "30160-000",
+                                                "logradouro": "Praça Rui Barbosa",
+                                                "complemento": "",
+                                                "bairro": "Centro",
+                                                "localidade": "Belo Horizonte",
+                                                "uf": "MG",
+                                                "ibge": "3106200",
+                                                "gia": "",
+                                                "ddd": "31",
+                                                "siafi": "4123"
+                                            },
+                                            "source": "ViaCEP"
+										}
+									}
+								}
+							}
+						}
+					},
+                    "401": {
+						"description": "Token was not provided or are invalid"
+					},
+					"500": {
+						"description": "Internal Server Error"
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"schemas": {
+			"User": {
+				"type": "object",
+				"properties": {
+					"username": { "type": "string" },
+					"email": { "type": "string" },
+					"password": { "type": "string" }
+				}
+			},
+            "ZipCode": {
+                "type": "object",
+                "properties": {
+                    "values": { "type": "object" },
+                    "source": { "type": "string" }
+                }
+			}
+		},
+        "securitySchemes": {
+            "bearerAuth": {
+                "description": "JWT Auth Token",
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+	}
+}
