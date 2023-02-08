@@ -8,6 +8,7 @@ _______
   ##### Yarn - A fast, effective and secure package manager. But it's just my preference, you can use Pnpm or Npm as well.
   ##### Tsyringe - For dependency injection.
   ##### Axios - To communicate with ViaCep API.
+  ##### JsonWebToken - For authentication.
 _______
 
 ## Development
