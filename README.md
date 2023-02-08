@@ -1,7 +1,13 @@
 <h1 align="center">Zip Code Consult API</h1>
 
-_______
 #### This application so far does not make connections with the database, therefore, the returned values are saved in memory or searched in ViaCep API. If this same zip code is searched within a period of up to 5 minutes, the data will be searched in cache and no longer in ViaCep.
+_______
+
+### Main frameworks, librarys and packages used:
+  ##### Express - Provides a simple routing for requests made by clients.
+  ##### Yarn - A fast, effective and secure package manager. But it's just my preference, you can use Pnpm or Npm as well.
+  ##### Tsyringe - For dependency injection.
+  ##### Axios - To communicate with ViaCep API.
 _______
 
 ## Development
